@@ -4,7 +4,7 @@ Various functions that I use in projects
 
 ---
 
-## Logging
+### Logging
 
 __Levels__
 
@@ -27,7 +27,7 @@ __Set level__
 
 ---
 
-## Time
+### Time
 
 `time.StampTimeNow()`
 
@@ -37,13 +37,13 @@ ex: `2023-04-27T11:33:45.772006+02:00`
 
 ---
 
-## Network
+### Network
 
 Get local IP
 `network.GetIP()`
 
 ---
-## Pretty Print
+### Pretty Print
 _Only tried on simple structs_
 
 Pretty print a struct
@@ -56,7 +56,7 @@ Return a pretty struct
 
 ---
 
-##UUID
+### UUID
 
 `uuid.GenerateUUID()`
 
