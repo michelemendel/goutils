@@ -6,6 +6,8 @@ Various functions that I use in projects
 
 ### Logging
 
+Using Zap logger by Uber, https://github.com/uber-go/zap
+
 __Levels__
 
 - Debug
