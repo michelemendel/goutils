@@ -6,7 +6,10 @@ Various functions that I use in projects
 
 ### Logging
 
-Using Zap logger by Uber, https://github.com/uber-go/zap
+Using 
+
+- Zap logger by Uber, https://github.com/uber-go/zap
+- Lumberjack https://pkg.go.dev/gopkg.in/natefinch/lumberjack.v2
 
 __Levels__
 
