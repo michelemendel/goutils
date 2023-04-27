@@ -24,6 +24,10 @@ __Set level__
 
  `log.SetDebugLevel()`
 
+ `log.SetInfoLevel()`
+
+ etc...
+
  __Log__
 
  - Simple: `log.Info("hello")`
