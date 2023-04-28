@@ -8,6 +8,10 @@ func StampTimeNow() string {
 	return time.Now().Format(time.RFC3339Nano)
 }
 
-func Now() time.Time {
-	return time.Now()
+func FormatNano(t time.Time) string {
+	return t.Format(time.RFC3339Nano)
+}
+
+func Format(t time.Time) string {
+	return t.Format(time.RFC3339)
 }
