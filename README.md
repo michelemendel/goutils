@@ -20,11 +20,21 @@ __Levels__
 - DPanic
 - Panic
 
+__Init__
+
+```
+var lg *zap.SugaredLogger
+
+func init() {
+	lg = log.InitWithConsole(zapcore.DebugLevel)
+}
+```
+
 __Set level__
 
- `log.SetDebugLevel()`
+ `lg = log.SetDebugLevel()`
 
- `log.SetInfoLevel()`
+ `lg = log.SetInfoLevel()`
 
  etc...
 

@@ -17,16 +17,12 @@ const (
 
 var lg *zap.SugaredLogger
 
-func init() {
-	initWithConsole(defaultLogLevel)
-}
-
-func initWithConsole(loglevel zapcore.Level) {
+func InitWithConsole(loglevel zapcore.Level) *zap.SugaredLogger {
 	consoleConfig := setConfigs(zap.NewProductionEncoderConfig())
 	consoleEncoder := zapcore.NewConsoleEncoder(consoleConfig)
 	core := zapcore.NewTee(zapcore.NewCore(consoleEncoder, zapcore.AddSync(os.Stdout), loglevel))
 	logger := zap.New(core, zap.AddCaller(), zap.AddStacktrace(stacktraceLevel))
-	lg = logger.Sugar()
+	return logger.Sugar()
 }
 
 func initWithFile(filename string) *zap.SugaredLogger {
@@ -90,32 +86,32 @@ func encodeLevel() zapcore.LevelEncoder {
 
 // Set log level
 
-func SetDebugLevel() {
-	initWithConsole(zapcore.DebugLevel)
+func SetDebugLevel() *zap.SugaredLogger {
+	return InitWithConsole(zapcore.DebugLevel)
 }
 
-func SetInfoLevel() {
-	initWithConsole(zapcore.InfoLevel)
+func SetInfoLevel() *zap.SugaredLogger {
+	return InitWithConsole(zapcore.InfoLevel)
 }
 
-func SetWarnLevel() {
-	initWithConsole(zapcore.WarnLevel)
+func SetWarnLevel() *zap.SugaredLogger {
+	return InitWithConsole(zapcore.WarnLevel)
 }
 
-func SetErrorLevel() {
-	initWithConsole(zapcore.ErrorLevel)
+func SetErrorLevel() *zap.SugaredLogger {
+	return InitWithConsole(zapcore.ErrorLevel)
 }
 
-func SetDPanicLevel() {
-	initWithConsole(zapcore.DPanicLevel)
+func SetDPanicLevel() *zap.SugaredLogger {
+	return InitWithConsole(zapcore.DPanicLevel)
 }
 
-func SetPanicLevel() {
-	initWithConsole(zapcore.PanicLevel)
+func SetPanicLevel() *zap.SugaredLogger {
+	return InitWithConsole(zapcore.PanicLevel)
 }
 
-func SetFatalLevel() {
-	initWithConsole(zapcore.FatalLevel)
+func SetFatalLevel() *zap.SugaredLogger {
+	return InitWithConsole(zapcore.FatalLevel)
 }
 
 // Debug
