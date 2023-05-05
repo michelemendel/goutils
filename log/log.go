@@ -79,7 +79,7 @@ func getLoglevel(loglevel string) zapcore.Level {
 	case "fatal":
 		return zapcore.FatalLevel
 	default:
-		fmt.Printf("Invalid log level %s. Using default log level: DEBUG", loglevel)
+		fmt.Printf("Invalid log level %s. Using default log level: DEBUG\n", loglevel)
 		return defaultLogLevel
 	}
 }
