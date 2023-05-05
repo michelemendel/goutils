@@ -2,6 +2,7 @@ package log
 
 import (
 	"os"
+	"strings"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -15,12 +16,11 @@ const (
 	stacktraceLevel = zapcore.ErrorLevel
 )
 
-var lg *zap.SugaredLogger
-
-func InitWithConsole(loglevel zapcore.Level) *zap.SugaredLogger {
+func InitWithConsole(loglevel string) *zap.SugaredLogger {
+	lglvl := getLoglevel(strings.ToLower(loglevel))
 	consoleConfig := setConfigs(zap.NewProductionEncoderConfig())
 	consoleEncoder := zapcore.NewConsoleEncoder(consoleConfig)
-	core := zapcore.NewTee(zapcore.NewCore(consoleEncoder, zapcore.AddSync(os.Stdout), loglevel))
+	core := zapcore.NewTee(zapcore.NewCore(consoleEncoder, zapcore.AddSync(os.Stdout), lglvl))
 	logger := zap.New(core, zap.AddCaller(), zap.AddStacktrace(stacktraceLevel))
 	return logger.Sugar()
 }
@@ -47,8 +47,7 @@ func initWithFile(filename string) *zap.SugaredLogger {
 	)
 	logger := zap.New(core, zap.AddCaller(), zap.AddStacktrace(zapcore.ErrorLevel))
 
-	lg = logger.Sugar()
-	return lg
+	return logger.Sugar()
 }
 
 func setConfigs(cfg zapcore.EncoderConfig) zapcore.EncoderConfig {
@@ -60,6 +59,27 @@ func setConfigs(cfg zapcore.EncoderConfig) zapcore.EncoderConfig {
 	// cfg.StacktraceKey = stacktrace // Use "" to disable stacktrace
 	cfg.TimeKey = "t"
 	return cfg
+}
+
+func getLoglevel(loglevel string) zapcore.Level {
+	switch loglevel {
+	case "debug":
+		return zapcore.DebugLevel
+	case "info":
+		return zapcore.InfoLevel
+	case "warn":
+		return zapcore.WarnLevel
+	case "error":
+		return zapcore.ErrorLevel
+	case "dpanic":
+		return zapcore.DPanicLevel
+	case "panic":
+		return zapcore.PanicLevel
+	case "fatal":
+		return zapcore.FatalLevel
+	default:
+		return defaultLogLevel
+	}
 }
 
 // Zap and GCP: https://github.com/uber-go/zap/issues/1095
@@ -87,106 +107,29 @@ func encodeLevel() zapcore.LevelEncoder {
 // Set log level
 
 func SetDebugLevel() *zap.SugaredLogger {
-	return InitWithConsole(zapcore.DebugLevel)
+	return InitWithConsole("DEBUG")
 }
 
 func SetInfoLevel() *zap.SugaredLogger {
-	return InitWithConsole(zapcore.InfoLevel)
+	return InitWithConsole("INFO")
 }
 
 func SetWarnLevel() *zap.SugaredLogger {
-	return InitWithConsole(zapcore.WarnLevel)
+	return InitWithConsole("WARN")
 }
 
 func SetErrorLevel() *zap.SugaredLogger {
-	return InitWithConsole(zapcore.ErrorLevel)
+	return InitWithConsole("ERROR")
 }
 
 func SetDPanicLevel() *zap.SugaredLogger {
-	return InitWithConsole(zapcore.DPanicLevel)
+	return InitWithConsole("DPANIC")
 }
 
 func SetPanicLevel() *zap.SugaredLogger {
-	return InitWithConsole(zapcore.PanicLevel)
+	return InitWithConsole("PANIC")
 }
 
 func SetFatalLevel() *zap.SugaredLogger {
-	return InitWithConsole(zapcore.FatalLevel)
-}
-
-// Debug
-func Debug(msg string) {
-	lg.Debug(msg)
-}
-func Debugf(msg string, fields ...interface{}) {
-	lg.Debugf(msg, fields...)
-}
-func Debugw(msg string, keysAndValues ...interface{}) {
-	lg.Debugw(msg, keysAndValues...)
-}
-
-// Info
-func Info(msg string) {
-	lg.Info(msg)
-}
-func Infof(msg string, fields ...interface{}) {
-	lg.Infof(msg, fields...)
-}
-func Infow(msg string, keysAndValues ...interface{}) {
-	lg.Infow(msg, keysAndValues...)
-}
-
-// Warn
-func Warn(msg string) {
-	lg.Warn(msg)
-}
-func Warnf(msg string, fields ...interface{}) {
-	lg.Warnf(msg, fields...)
-}
-func Warnw(msg string, keysAndValues ...interface{}) {
-	lg.Infow(msg, keysAndValues...)
-}
-
-// Error
-func Error(msg string) {
-	lg.Error(msg)
-}
-func Errorf(msg string, fields ...interface{}) {
-	lg.Errorf(msg, fields...)
-}
-func Errorw(msg string, keysAndValues ...interface{}) {
-	lg.Errorw(msg, keysAndValues...)
-}
-
-// DPanic
-func DPanic(msg string) {
-	lg.DPanic(msg)
-}
-func DPanicf(msg string, fields ...interface{}) {
-	lg.DPanicf(msg, fields...)
-}
-func DPanicw(msg string, keysAndValues ...interface{}) {
-	lg.DPanicw(msg, keysAndValues...)
-}
-
-// Panic
-func Panic(msg string) {
-	lg.Panic(msg)
-}
-func Panicf(msg string, fields ...interface{}) {
-	lg.Panicf(msg, fields...)
-}
-func Panicw(msg string, keysAndValues ...interface{}) {
-	lg.Panicw(msg, keysAndValues...)
-}
-
-// Fatal
-func Fatal(msg string) {
-	lg.Fatal(msg)
-}
-func Fatalf(msg string, fields ...interface{}) {
-	lg.Fatalf(msg, fields...)
-}
-func Fatalw(msg string, keysAndValues ...interface{}) {
-	lg.Fatalw(msg, keysAndValues...)
+	return InitWithConsole("FATAL")
 }
