@@ -4,12 +4,21 @@ import (
 	"net"
 
 	"github.com/michelemendel/goutils/log"
+	"go.uber.org/zap"
 )
+
+var lg *zap.SugaredLogger
+
+const LOG_LEVEL = "INFO"
+
+func init() {
+	lg = log.InitWithConsole(LOG_LEVEL)
+}
 
 func GetIP() string {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
-		log.Errorf("Couldn't get an IP address, %v", err)
+		lg.Errorf("Couldn't get an IP address, %v", err)
 		return ""
 	}
 	for _, address := range addrs {
@@ -19,6 +28,6 @@ func GetIP() string {
 			return ipnet.IP.String()
 		}
 	}
-	log.Errorf("Couldn't get an IP address, %v", err)
+	lg.Errorf("Couldn't get an IP address, %v", err)
 	return ""
 }
