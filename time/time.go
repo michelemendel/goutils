@@ -15,3 +15,7 @@ func FormatNano(t time.Time) string {
 func Format(t time.Time) string {
 	return t.Format(time.RFC3339)
 }
+
+func Parse(s string) (time.Time, error) {
+	return time.Parse(time.RFC3339, s)
+}
